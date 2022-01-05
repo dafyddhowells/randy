@@ -12,10 +12,10 @@
 #' @param away_conceded_games_lag The count of lagged games to calculate average away goals conceded Default is 4,
 #' @import dplyr
 #' @import lubridate
-#' @import magrittr
 #' @import RcppRoll
-#' @import tidyr
 #' @importFrom rlang .data
+#' @importFrom magrittr "%>%"
+#' @importFrom tidyr replace_na
 #' @export
 #' @examples
 #' \dontrun{

@@ -7,7 +7,7 @@ join_form_and_fixture_history <- function() {
              "date" = "date",
              "team" = "team",
              "home" = "home")) %>%
-    dplyr::select(-fthg.y, -ftag.y) %>%
+    select(-fthg.y, -ftag.y) %>%
     rename(fthg = fthg.x, ftag = ftag.x)
 
 }

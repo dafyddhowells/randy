@@ -3,9 +3,11 @@
 #' Current season sourced from Fantasy League API.
 #' @import dplyr
 #' @import lubridate
-#' @import magrittr
-#' @import tidyr
 #' @importFrom rlang .data
+#' @importFrom magrittr "%>%"
+#' @importFrom tidyr separate
+#' @importFrom tidyr replace_na
+#' @importFrom tidyr drop_na
 #' @export
 #' @examples
 #' \dontrun{
@@ -110,10 +112,10 @@ get_prem_history <- function(){
     select(.data$fixture_no,
            .data$fixture,
            .data$actual_score) %>%
-    tidyr::separate(.data$actual_score,
+    separate(.data$actual_score,
                     sep = "-",
                     c("fthg", "ftag")) %>%
-    tidyr::separate(.data$fixture,
+    separate(.data$fixture,
                     sep = " v ",
                     c("home_team", "away_team")) %>%
     inner_join(ff_fixtures %>% select(.data$fixture_no, .data$kickoff_time),

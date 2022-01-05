@@ -9,11 +9,11 @@
 #' @param away_conceded_games_lag The count of lagged games to calculate average away xG against. Default is 4,
 #' @import dplyr
 #' @import lubridate
-#' @import magrittr
 #' @import RcppRoll
-#' @import tidyr
 #' @import rvest
 #' @importFrom rlang .data
+#' @importFrom magrittr "%>%"
+#' @importFrom data.table rbindlist
 #' @export
 #' @examples
 #' \dontrun{
@@ -47,7 +47,7 @@ get_xg_fixture_history <- function(home_scored_games_lag = 4,
 
   # As we are joining on fixture we need to tidy up the team names so they
   #   are consistent with what we see in the source history tables
-  xg_seasons <- data.table::rbindlist(xg_seasons_l, use.names = TRUE) %>%
+  xg_seasons <- rbindlist(xg_seasons_l, use.names = TRUE) %>%
     select(date = .data$Date,
            home_team = .data$Home,
            away_team = .data$Away,

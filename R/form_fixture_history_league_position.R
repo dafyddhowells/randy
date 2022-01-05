@@ -5,10 +5,12 @@
 #' This function joins form and past fixture data frames and calculates the cumulative points for each team after each game within each season.
 #' @import dplyr
 #' @import jsonlite
-#' @import magrittr
-#' @import tidyr
-#' @import data.table
+#' @importFrom tidyr separate
+#' @importFrom tidyr replace_na
+#' @importFrom tidyr drop_na
 #' @importFrom rlang .data
+#' @importFrom data.table rbindlist
+#' @importFrom magrittr "%>%"
 #' @param form_and_fixture_history A \code{data.frame} of joined form and fixture history given by \code{join_form_and_fixture_history()}
 #' @export
 #' @examples

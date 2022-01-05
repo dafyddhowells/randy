@@ -5,9 +5,10 @@
 #' This is based on recent games and also past history of each fixture.
 #' @import dplyr
 #' @import jsonlite
-#' @import magrittr
-#' @import tidyr
-#' @import data.table
+#' @importFrom tidyr separate
+#' @importFrom tidyr replace_na
+#' @importFrom tidyr drop_na
+#' @importFrom magrittr "%>%"
 #' @param x A \code{data.frame} of joined form and fixture history given by \code{form_fixture_history_league_position()}
 #' @export
 #' @examples
