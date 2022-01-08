@@ -142,6 +142,7 @@ additional variables for a team’s attacking and defending strength.
 xg_fixture_history_df <- get_xg_fixture_history()
 
 head(xg_fixture_history_df)
+```
 
 | date       | team    | fixture               | actual_score | xg1 | xg2 | home | xg_for | xg_against |
 |------------|---------|-----------------------|--------------|-----|-----|------|--------|------------|
@@ -151,7 +152,6 @@ head(xg_fixture_history_df)
 | 2017-10-01 | Arsenal | Arsenal v Brighton    | 2–0          | 3   | 0.4 | TRUE | 2.425  | 0.825      |
 | 2017-10-28 | Arsenal | Arsenal v Swansea     | 2–1          | 1.6 | 0.6 | TRUE | 2.25   | 0.65       |
 | 2017-11-18 | Arsenal | Arsenal v Spurs       | 2–0          | 1.4 | 1.4 | TRUE | 2.1    | 0.775      |
-```
 
 ## Combining form, xG history and past fixture history
 
