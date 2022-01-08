@@ -1,9 +1,8 @@
+randy
+================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# randy
-
 <!-- badges: start -->
 <!-- badges: end -->
 
@@ -15,7 +14,7 @@ working title of the project that this originated from.
 I was inspired to build this to help with a long running game I have
 played with friends.
 
-## Prediccos: Predicting the Scores in Premier League football matches
+### Predicting the Scores in Premier League football matches
 
 -   1 point is assigned to that person for predicting the correct result
 -   3 points are assigned to that person for predicting the correct
@@ -25,10 +24,13 @@ played with friends.
 -   The BBC Football pundit Mark Lawrenson plays the same game each
     season challenging a different set of celebrities each week
 -   We include him in our league and his predictions for ths 2021/22
-    season can be found here:
+    season can be found:
     [here](https://www.myfootballfacts.com/stats/premier-league-by-season/premier-league-2021-22/lawros-predictions-premier-league-2021-22/)
 
-## Using Poisson models to do my own Predicco predictions
+An example of our completed points league from the 2020/21 season can be
+found [here](https://rpubs.com/dafh/prediccos_2020-2021v2)
+
+### Using Poisson models to do my own score predictions
 
 Previously I predicted scores using largely gut instinct which had
 returned modest results over the years. I would typically get 45-50% of
@@ -38,14 +40,14 @@ methods developed by countless others to achieve the same aim. I will
 not document all of that here but see below a couple of excellent
 packages that really helped my learning in this area:
 
-<https://github.com/Torvaney/regista>
-<https://github.com/opisthokonta/goalmodel>
+-   <https://github.com/Torvaney/regista>
+-   <https://github.com/opisthokonta/goalmodel>
 
 Whether I used the approaches documented above or worked on building my
 own Poisson models, the first step was to pull together the historical
 premier league data sets to fit models to.
 
-## Installation
+### Installation
 
 You can install the development version of randy from
 [GitHub](https://github.com/) with:
@@ -57,14 +59,12 @@ devtools::install_github("dafyddhowells/randy")
 library(randy)
 ```
 
-## Pulling in historical Premier League results
+### Pulling in historical Premier League results
 
 This function pulls in the results from all fixtures in the entire
 history of the Premier League including the current season:
 
 ``` r
-library(randy)
-
 head(get_prem_history())
 ```
 
@@ -77,7 +77,7 @@ head(get_prem_history())
 | 1993-08-14 | Man City    | Leeds          | 1    | 1    | Man City v Leeds           |
 | 1993-08-14 | Newcastle   | Spurs          | 0    | 1    | Newcastle v Spurs          |
 
-## Create form data:
+### Create form data
 
 To create a data set for fitting models to, each team in a fixture needs
 to appear as it’s own observation whether it is home or away to allow us
@@ -108,7 +108,7 @@ head(prem_form_df)
 | Arsenal | Arsenal v Southampton | 1993-09-25 | 1    | 0    | 3    | 2.25   | 0.25     | TRUE | 1   | 0    |
 | Arsenal | Arsenal v Man City    | 1993-10-16 | 0    | 0    | 2.5  | 1.75   | 0        | TRUE | 0   | 1    |
 
-## Create view of the history of a team in the same fixture over time
+### Create view of the history of a team in the same fixture over time
 
 We may also want to consider the average goals scored and conceded, home
 and away in the same instance of a fixture over a number of years. For
@@ -131,11 +131,11 @@ head(prem_fixture_history_df)
 | Arsenal | Arsenal v Aston Villa | 1997-10-26 | 0    | 0    | 1         | 0.5         | TRUE |
 | Arsenal | Arsenal v Aston Villa | 1999-05-16 | 1    | 0    | 1.25      | 0.5         | TRUE |
 
-## Running averages for xG for and against in recent games
+### Running averages for xG for and against in recent games
 
 Sourced from <https://fbref.com>, similar to calculating running average
-goal form provided by `r get_prem_form()`, we can calculate the same for
-a team, either home or away for their expected goals (xG) to provide
+goal form provided by `get_prem_form()`, we can calculate the same for a
+team, either home or away for their expected goals (xG) to provide
 additional variables for a team’s attacking and defending strength.
 
 ``` r
@@ -153,10 +153,10 @@ head(xg_fixture_history_df)
 | 2017-10-28 | Arsenal | Arsenal v Swansea     | 2–1          | 1.6 | 0.6 | TRUE | 2.25   | 0.65       |
 | 2017-11-18 | Arsenal | Arsenal v Spurs       | 2–0          | 1.4 | 1.4 | TRUE | 2.1    | 0.775      |
 
-## Combining form, xG history and past fixture history
+### Combining form, xG history and past fixture history
 
-We can combine all 3 of these sets of variables into 1 data frame with
-some additional variables including:
+We can combine all 3 of these sets of variables into 1 data frame using
+`get_model_data()` with some additional variables including:
 
 -   The season the fixture was played in
 -   The position of the team in the league when the fixture was played

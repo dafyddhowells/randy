@@ -1,8 +1,7 @@
-#' get_xg_fixture_history
-#' Calculate rolling averages expected goals (xG) scored for each team home and away for the same fixture over time.
-#' This function scrapes fixture level xG data from https://fbref.com.
-#' It returns a breakdown of each team's rolling average xG for and against both home and away.
-#' From this we can assess a team's relative attacking and defending strengths to use as variables in a model.
+#' Calculate rolling averages expected goals (xG) scored for each team home and away
+#'
+#' This function returns a breakdown of each team's rolling average xG for and against both home and away.
+#'
 #' @param home_scored_games_lag The count of lagged games to calculate average home xG. Default is 4,
 #' @param home_conceded_games_lag The count of lagged games to calculate average home xG against. Default is 4,
 #' @param away_scored_games_lag The count of lagged games to calculate average away xG. Default is 4,
@@ -20,6 +19,17 @@
 #' xg_fixture_history_df <- get_xg_fixture_history()
 #' }
 #' @return This function returns a data.frame with the following columns
+#' \describe{
+#'  \item{date}{Date when the fixture was played}
+#'  \item{team}{Character representing a team in a fixture}
+#'  \item{fixture}{Character represening the fixture e.g Arsenal v Everton}
+#'  \item{actual_score}{Character represening the actual score in the fixture e.g. 2-1}
+#'  \item{xg1}{Numeric fulltime home xG in the fixture}
+#'  \item{xg2}{Numeric fulltime away xG in the fixture}
+#'  \item{home}{Logical represening whether or not the team was home or away in the fixture}
+#'  \item{xg_for}{Numeric showing running average of xG for the team}
+#'  \item{xg_against}{umeric showing running average of xG against the team}
+#' }
 #' @author Daf Howells <dafhowells@yahoo.co.uk>
 
 get_xg_fixture_history <- function(home_scored_games_lag = 4,

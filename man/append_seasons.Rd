@@ -11,13 +11,13 @@ append_seasons(x)
 }
 \value{
 This function returns a \code{data.frame} with the following column appended:
-\itemize{
+\describe{
  \item{season}{Character values representing the season that each match was played in.}
 }
 }
 \description{
 Using the date of the fixture, the season is appended to a data frame of fixtures.
-Tyopically seasons run from August to May however Covid rescheduling increased the length of the season in 2021.
+Typically seasons run from August to May however Covid rescheduling increased the length of the season in 2021.
 }
 \examples{
 \dontrun{

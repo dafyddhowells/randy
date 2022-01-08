@@ -1,7 +1,8 @@
 #' append_seasons
 #'
 #' Using the date of the fixture, the season is appended to a data frame of fixtures.
-#' Tyopically seasons run from August to May however Covid rescheduling increased the length of the season in 2021.
+#' Typically seasons run from August to May however Covid rescheduling increased the length of the season in 2021.
+#'
 #' @param x A \code{data.frame} of fixtures with a \code{date} column
 #' @import dplyr
 #' @import lubridate
@@ -12,7 +13,7 @@
 #' df <- append_seasons()
 #' }
 #' @return This function returns a \code{data.frame} with the following column appended:
-#' \itemize{
+#' \describe{
 #'  \item{season}{Character values representing the season that each match was played in.}
 #' }
 #' @author Daf Howells <dafhowells@yahoo.co.uk>

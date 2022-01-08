@@ -2,7 +2,7 @@
 % Please edit documentation in R/form_fixture_history_league_position.R
 \name{form_fixture_history_league_position}
 \alias{form_fixture_history_league_position}
-\title{form_fixture_history_league_position}
+\title{Combine past form and fixture history with league position}
 \usage{
 form_fixture_history_league_position(
   form_and_fixture_history = join_form_and_fixture_history()
@@ -13,7 +13,7 @@ form_fixture_history_league_position(
 }
 \value{
 This function returns a \code{data.frame} with the following columns:
-\itemize{
+\describe{
  \item{team}{Character values for the team}
  \item{fixture}{Character represening the fixture i.e. Arsenal v Everton}
  \item{date}{Character values for the date that the match was played}
@@ -35,7 +35,9 @@ This function returns a \code{data.frame} with the following columns:
 }
 }
 \description{
-Joins team averages for goals and form with past fixture history and also calculates a team's league position
+Joins team averages for goals and form with past fixture history and also calculates a team's league position.
+}
+\details{
 In addition to the average goals scored and conceded by a team both in recent games and in the same fixture, we would also want to know that's team's league position at the time that the fixture was played.
 This function joins form and past fixture data frames and calculates the cumulative points for each team after each game within each season.
 }

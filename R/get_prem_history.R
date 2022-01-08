@@ -1,6 +1,7 @@
-#' get_prem_history
-#' Extract current season Premier League match data and combine it with previous seasons..
-#' Current season sourced from Fantasy League API.
+#' Get all historic Premier League results
+#'
+#' Extract current season Premier League match data and combines it with previous seasons in a data frame.
+#'
 #' @import dplyr
 #' @import lubridate
 #' @importFrom rlang .data
@@ -14,7 +15,7 @@
 #' prem_history <- get_prem_history()
 #' }
 #' @return This function returns a \code{data.frame} with the following columns:
-#' \itemize{
+#' \describe{
 #'  \item{div}{Character representing the division, default E0 which is the value for the Premier League}
 #'  \item{date}{Date when the fixture was played}
 #'  \item{home_team}{Character showing team playing at home}

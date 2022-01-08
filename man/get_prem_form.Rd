@@ -2,11 +2,7 @@
 % Please edit documentation in R/get_prem_form.R
 \name{get_prem_form}
 \alias{get_prem_form}
-\title{get_prem_form
-Calculate rolling averages for points accumulated and goals scored for each team home and away.
-This function creates a base level data frame for model fitting.
-It returns a breakdown of each team's average points accumulated, goals scored and goals conceded home and away.
-From this we can assess a team's relative attacking and defending strengths to use as variables in a model.}
+\title{Get rolling averages for points accumulated and goals scored for each team home and away.}
 \usage{
 get_prem_form(
   prem_history = get_prem_history(),
@@ -35,13 +31,13 @@ get_prem_form(
 }
 \value{
 This function returns a \code{data.frame} with the following columns:
-\itemize{
+\describe{
  \item{team}{Character representing a team in a fixture}
  \item{fixture}{Character represening the fixture i.e. Arsenal v Everton}
  \item{date}{Date when the fixture was played}
  \item{fthg}{Numeric fulltime home goals scored in the fixture}
- \item{ftag}{Numeric fulltime away goals scored in the fixture}ftag
- \item{form}{Numeric running average of points accumulated (3 for a win, 1 for a draw) either home or away}form
+ \item{ftag}{Numeric fulltime away goals scored in the fixture}
+ \item{form}{Numeric running average of points accumulated (3 for a win, 1 for a draw) either home or away}
  \item{scored}{Numeric running average of goals scored either home or away}
  \item{conceded}{Numeric running average of goals conceded either home or away}
  \item{home}{Numeric logical represnting whether the team was home or away}
@@ -50,11 +46,7 @@ This function returns a \code{data.frame} with the following columns:
 }
 }
 \description{
-get_prem_form
-Calculate rolling averages for points accumulated and goals scored for each team home and away.
-This function creates a base level data frame for model fitting.
-It returns a breakdown of each team's average points accumulated, goals scored and goals conceded home and away.
-From this we can assess a team's relative attacking and defending strengths to use as variables in a model.
+This functions returns a breakdown of each team's average points accumulated, goals scored and goals conceded home and away.
 }
 \examples{
 \dontrun{

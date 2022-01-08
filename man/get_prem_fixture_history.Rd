@@ -2,11 +2,7 @@
 % Please edit documentation in R/get_prem_fixture_history.R
 \name{get_prem_fixture_history}
 \alias{get_prem_fixture_history}
-\title{get_prem_fixture_history
-Calculate rolling averages for goals scored for each team home and away for the same fixture over time.
-Teams play each other over many seasons and often the outcome follows a certain pattern for e.g. Everton seldom beat Liverpool away.
-This function returns a breakdown of each team's average points accumulated, goals scored and goals conceded home and away for the same fixture.
-From this we can assess a team's relative attacking and defending strengths in a given fixture over time to use as variables in a model.}
+\title{Calculate rolling averages for goals scored for each team home and away for the same fixture over time.}
 \usage{
 get_prem_fixture_history(
   prem_history = get_prem_history(),
@@ -29,7 +25,7 @@ get_prem_fixture_history(
 }
 \value{
 This function returns a \code{data.frame} with the following columns:
-\itemize{
+\describe{
  \item{team}{Character representing a team in a fixture}
  \item{fixture}{Character represening the fixture i.e. Arsenal v Everton}
  \item{date}{Date when the fixture was played}
@@ -42,10 +38,10 @@ This function returns a \code{data.frame} with the following columns:
 }
 }
 \description{
-get_prem_fixture_history
-Calculate rolling averages for goals scored for each team home and away for the same fixture over time.
-Teams play each other over many seasons and often the outcome follows a certain pattern for e.g. Everton seldom beat Liverpool away.
 This function returns a breakdown of each team's average points accumulated, goals scored and goals conceded home and away for the same fixture.
+}
+\details{
+Teams play each other over many seasons and often the outcome follows a certain pattern for e.g. Everton seldom beat Liverpool away.
 From this we can assess a team's relative attacking and defending strengths in a given fixture over time to use as variables in a model.
 }
 \examples{

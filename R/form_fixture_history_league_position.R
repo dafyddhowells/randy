@@ -1,8 +1,10 @@
-#' form_fixture_history_league_position
+#' Combine past form and fixture history with league position
 #'
-#' Joins team averages for goals and form with past fixture history and also calculates a team's league position
+#' Joins team averages for goals and form with past fixture history and also calculates a team's league position.
+#'
 #' In addition to the average goals scored and conceded by a team both in recent games and in the same fixture, we would also want to know that's team's league position at the time that the fixture was played.
 #' This function joins form and past fixture data frames and calculates the cumulative points for each team after each game within each season.
+#'
 #' @import dplyr
 #' @import jsonlite
 #' @importFrom tidyr separate
@@ -19,7 +21,7 @@
 #' form_fixture_history_league_position <- form_fixture_history_league_position(df)
 #' }
 #' @return This function returns a \code{data.frame} with the following columns:
-#' \itemize{
+#' \describe{
 #'  \item{team}{Character values for the team}
 #'  \item{fixture}{Character represening the fixture i.e. Arsenal v Everton}
 #'  \item{date}{Character values for the date that the match was played}

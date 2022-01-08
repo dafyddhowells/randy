@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_model_data.R
 \name{get_model_data}
 \alias{get_model_data}
-\title{get_model_data}
+\title{Combine past form, xG, fixture history and league position}
 \usage{
 get_model_data(x = form_fixture_history_league_position())
 }
@@ -11,13 +11,13 @@ get_model_data(x = form_fixture_history_league_position())
 }
 \value{
 This function returns a \code{data.frame} with the following columns:
-\itemize{
+\describe{
  \item{team}{Character values for the team}
  \item{fixture}{Character represening the fixture i.e. Arsenal v Everton}
  \item{date}{Character values for the date that the match was played}
  \item{fthg}{Numeric fulltime home goals scored in the fixture}
- \item{ftag}{Numeric fulltime away goals scored in the fixture}ftag
- \item{form}{Numeric running average of points accumulated (3 for a win, 1 for a draw) either home or away}form
+ \item{ftag}{Numeric fulltime away goals scored in the fixture}
+ \item{form}{Numeric running average of points accumulated (3 for a win, 1 for a draw) either home or away}
  \item{scored}{Numeric running average of goals scored either home or away}
  \item{conceded}{Numeric running average of goals conceded either home or away}
  \item{home}{Numeric logical represnting whether the team was home or away}
@@ -34,13 +34,10 @@ This function returns a \code{data.frame} with the following columns:
 }
 \description{
 Joins team averages for goals and form, past fixture history, league position in season and xG averages in recent games.
-This function generates a data frame with a number of variables to represent a team's attacking and defending strength.
-This is based on recent games and also past history of each fixture.
 }
 \examples{
 \dontrun{
-df <- join_form_and_fixture_history()
-form_fixture_history_league_position <- form_fixture_history_league_position(df)
+model_data <- get_model_data()
 }
 }
 \author{

@@ -1,8 +1,10 @@
-#' get_prem_fixture_history
 #' Calculate rolling averages for goals scored for each team home and away for the same fixture over time.
-#' Teams play each other over many seasons and often the outcome follows a certain pattern for e.g. Everton seldom beat Liverpool away.
+#'
 #' This function returns a breakdown of each team's average points accumulated, goals scored and goals conceded home and away for the same fixture.
+#'
+#' Teams play each other over many seasons and often the outcome follows a certain pattern for e.g. Everton seldom beat Liverpool away.
 #' From this we can assess a team's relative attacking and defending strengths in a given fixture over time to use as variables in a model.
+#'
 #' @param prem_history a \code{data.frame} of past fixtures given by \code{get_prem_history()}
 #' @param home_scored_fixtures_lag The count of lagged games to calculate average home goals scored. Default is 4
 #' @param home_conceded_fixtures_lag The count of lagged games to calculate average home goals conceded. Default is 4
@@ -20,7 +22,7 @@
 #' prem_fixture_history_df <- get_prem_fixture_history(prem_history)
 #' }
 #' @return This function returns a \code{data.frame} with the following columns:
-#' \itemize{
+#' \describe{
 #'  \item{team}{Character representing a team in a fixture}
 #'  \item{fixture}{Character represening the fixture i.e. Arsenal v Everton}
 #'  \item{date}{Date when the fixture was played}
