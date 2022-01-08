@@ -66,6 +66,7 @@ history of the Premier League including the current season:
 library(randy)
 
 head(get_prem_history())
+```
 
 | date       | home_team   | away_team      | fthg | ftag | fixture                    |
 |------------|-------------|----------------|------|------|----------------------------|
@@ -75,7 +76,6 @@ head(get_prem_history())
 | 1993-08-14 | Liverpool   | Sheffield Weds | 2    | 0    | Liverpool v Sheffield Weds |
 | 1993-08-14 | Man City    | Leeds          | 1    | 1    | Man City v Leeds           |
 | 1993-08-14 | Newcastle   | Spurs          | 0    | 1    | Newcastle v Spurs          |
-```
 
 ## Create form data:
 
@@ -97,6 +97,7 @@ prem_history <- get_prem_history()
 prem_form_df <- get_prem_form(prem_history)
 
 head(prem_form_df)
+```
 
 | team    | fixture               | date       | fthg | ftag | form | scored | conceded | home | win | draw |
 |---------|-----------------------|------------|------|------|------|--------|----------|------|-----|------|
@@ -106,7 +107,6 @@ head(prem_form_df)
 | Arsenal | Arsenal v Ipswich     | 1993-09-11 | 4    | 0    | 2.25 | 2      | 1        | TRUE | 1   | 0    |
 | Arsenal | Arsenal v Southampton | 1993-09-25 | 1    | 0    | 3    | 2.25   | 0.25     | TRUE | 1   | 0    |
 | Arsenal | Arsenal v Man City    | 1993-10-16 | 0    | 0    | 2.5  | 1.75   | 0        | TRUE | 0   | 1    |
-```
 
 ## Create view of the history of a team in the same fixture over time
 
@@ -120,6 +120,7 @@ prem_history <- get_prem_history()
 prem_fixture_history_df <- get_prem_fixture_history(prem_history)
 
 head(prem_fixture_history_df)
+```
 
 | team    | fixture               | date       | fthg | ftag | sf_scored | sf_conceded | home |
 |---------|-----------------------|------------|------|------|-----------|-------------|------|
@@ -129,7 +130,6 @@ head(prem_fixture_history_df)
 | Arsenal | Arsenal v Aston Villa | 1996-12-28 | 2    | 2    | 1.25      | 1           | TRUE |
 | Arsenal | Arsenal v Aston Villa | 1997-10-26 | 0    | 0    | 1         | 0.5         | TRUE |
 | Arsenal | Arsenal v Aston Villa | 1999-05-16 | 1    | 0    | 1.25      | 0.5         | TRUE |
-```
 
 ## Running averages for xG for and against in recent games
 
@@ -167,20 +167,20 @@ some additional variables including:
 model_data <- get_model_data()
 
 head(model_data)
-
-| team             | fixture                           | date       | fthg | ftag | form | scored | conceded | home  | win | draw | sf_scored | sf_conceded | season    | points | cum_points | game | league_pos | actual_score | xg1 | xg2 | xg_for | xg_against |
-|------------------|-----------------------------------|------------|------|------|------|--------|----------|-------|-----|------|-----------|-------------|-----------|--------|------------|------|------------|--------------|-----|-----|--------|------------|
-| Man Utd          | Man Utd v Wolves                  | 2022-01-03 | 0    | 1    | 2.25 | 1.75   | 1        | TRUE  | 0   | 0    | 1.25      | 0.75        | 2021/2022 | 0      | 31         | 19   | 4          | 0–1          | 0.8 | 0.7 | 1.45   | 0.975      |
-| Wolves           | Man Utd v Wolves                  | 2022-01-03 | 0    | 1    | 1.25 | 0.25   | 0.25     | FALSE | 1   | 0    | 0.75      | 0.75        | 2021/2022 | 3      | 28         | 19   | 5          | 0–1          | 0.8 | 0.7 | 0.625  | 1.725      |
-| Aston Villa      | Brentford v Aston Villa           | 2022-01-02 | 2    | 1    | 2.25 | 2      | 1.25     | FALSE | 0   | 0    | 1.5       | 1.5         | 2021/2022 | 0      | 22         | 19   | 8          | 2–1          | 0.6 | 1.2 | 0.925  | 1.125      |
-| Brentford        | Brentford v Aston Villa           | 2022-01-02 | 2    | 1    | 2.25 | 1.25   | 0.75     | TRUE  | 1   | 0    | 2         | 0.75        | 2021/2022 | 3      | 23         | 19   | 7          | 2–1          | 0.6 | 1.2 | 1      | 0.875      |
-| Brighton         | Everton v Brighton                | 2022-01-02 | 2    | 3    | 1    | 0.25   | 0.75     | FALSE | 1   | 0    | 1         | 1           | 2021/2022 | 3      | 27         | 19   | 6          | 2–3          | 1.7 | 1.5 | 1.225  | 1.45       |
-| Burnley          | Leeds v Burnley                   | 2022-01-02 | 3    | 1    | 1.75 | 1.25   | 1        | FALSE | 0   | 0    | 1         | 1           | 2021/2022 | 0      | 11         | 17   | 15         | 3–1          | 1.6 | 1   | 0.675  | 1.4        |
-| Chelsea          | Chelsea v Liverpool               | 2022-01-02 | 2    | 2    | 1.5  | 1.75   | 1.5      | TRUE  | 0   | 1    | 1.25      | 1.25        | 2021/2022 | 1      | 43         | 21   | 2          | 2–2          | 1.3 | 1.3 | 1.975  | 1          |
-| Everton          | Everton v Brighton                | 2022-01-02 | 2    | 3    | 1    | 1.25   | 2        | TRUE  | 0   | 0    | 2         | 1           | 2021/2022 | 0      | 19         | 18   | 12         | 2–3          | 1.7 | 1.5 | 0.95   | 1.4        |
-| Leeds            | Leeds v Burnley                   | 2022-01-02 | 3    | 1    | 1.75 | 1.75   | 1.75     | TRUE  | 1   | 0    | 3.25      | 1.25        | 2021/2022 | 3      | 19         | 19   | 10         | 3–1          | 1.6 | 1   | 1.525  | 1.55       |
-| Liverpool        | Chelsea v Liverpool               | 2022-01-02 | 2    | 2    | 1    | 1      | 1.25     | FALSE | 0   | 1    | 2         | 2           | 2021/2022 | 1      | 42         | 20   | 2          | 2–2          | 1.3 | 1.3 | 1.95   | 1.375      |
-| Arsenal          | Arsenal v Man City                | 2022-01-01 | 1    | 2    | 2.25 | 2      | 0.5      | TRUE  | 0   | 0    | 0.25      | 2.5         | 2021/2022 | 0      | 35         | 20   | 3          | 1–2          | 1   | 1.8 | 1.8    | 0.725      |
-| Crystal Palace   | Crystal Palace v West Ham         | 2022-01-01 | 2    | 3    | 1.75 | 2.5    | 1.5      | TRUE  | 0   | 0    | 1.75      | 1.75        | 2021/2022 | 0      | 23         | 20   | 5          | 2–3          | 2.2 | 2   | 1.725  | 1.3        |
-| Man City         | Arsenal v Man City                | 2022-01-01 | 1    | 2    | 0.25 | 1      | 3.25     | FALSE | 1   | 0    | 3.25      | 3.25        | 2021/2022 | 3      | 53         | 21   | 1          | 1–2          | 1   | 1.8 | 2.325  | 0.6        |
 ```
+
+| team           | fixture                   | date       | fthg | ftag | form | scored | conceded | home  | win | draw | sf_scored | sf_conceded | season    | points | cum_points | game | league_pos | actual_score | xg1 | xg2 | xg_for | xg_against |
+|----------------|---------------------------|------------|------|------|------|--------|----------|-------|-----|------|-----------|-------------|-----------|--------|------------|------|------------|--------------|-----|-----|--------|------------|
+| Man Utd        | Man Utd v Wolves          | 2022-01-03 | 0    | 1    | 2.25 | 1.75   | 1        | TRUE  | 0   | 0    | 1.25      | 0.75        | 2021/2022 | 0      | 31         | 19   | 4          | 0–1          | 0.8 | 0.7 | 1.45   | 0.975      |
+| Wolves         | Man Utd v Wolves          | 2022-01-03 | 0    | 1    | 1.25 | 0.25   | 0.25     | FALSE | 1   | 0    | 0.75      | 0.75        | 2021/2022 | 3      | 28         | 19   | 5          | 0–1          | 0.8 | 0.7 | 0.625  | 1.725      |
+| Aston Villa    | Brentford v Aston Villa   | 2022-01-02 | 2    | 1    | 2.25 | 2      | 1.25     | FALSE | 0   | 0    | 1.5       | 1.5         | 2021/2022 | 0      | 22         | 19   | 8          | 2–1          | 0.6 | 1.2 | 0.925  | 1.125      |
+| Brentford      | Brentford v Aston Villa   | 2022-01-02 | 2    | 1    | 2.25 | 1.25   | 0.75     | TRUE  | 1   | 0    | 2         | 0.75        | 2021/2022 | 3      | 23         | 19   | 7          | 2–1          | 0.6 | 1.2 | 1      | 0.875      |
+| Brighton       | Everton v Brighton        | 2022-01-02 | 2    | 3    | 1    | 0.25   | 0.75     | FALSE | 1   | 0    | 1         | 1           | 2021/2022 | 3      | 27         | 19   | 6          | 2–3          | 1.7 | 1.5 | 1.225  | 1.45       |
+| Burnley        | Leeds v Burnley           | 2022-01-02 | 3    | 1    | 1.75 | 1.25   | 1        | FALSE | 0   | 0    | 1         | 1           | 2021/2022 | 0      | 11         | 17   | 15         | 3–1          | 1.6 | 1   | 0.675  | 1.4        |
+| Chelsea        | Chelsea v Liverpool       | 2022-01-02 | 2    | 2    | 1.5  | 1.75   | 1.5      | TRUE  | 0   | 1    | 1.25      | 1.25        | 2021/2022 | 1      | 43         | 21   | 2          | 2–2          | 1.3 | 1.3 | 1.975  | 1          |
+| Everton        | Everton v Brighton        | 2022-01-02 | 2    | 3    | 1    | 1.25   | 2        | TRUE  | 0   | 0    | 2         | 1           | 2021/2022 | 0      | 19         | 18   | 12         | 2–3          | 1.7 | 1.5 | 0.95   | 1.4        |
+| Leeds          | Leeds v Burnley           | 2022-01-02 | 3    | 1    | 1.75 | 1.75   | 1.75     | TRUE  | 1   | 0    | 3.25      | 1.25        | 2021/2022 | 3      | 19         | 19   | 10         | 3–1          | 1.6 | 1   | 1.525  | 1.55       |
+| Liverpool      | Chelsea v Liverpool       | 2022-01-02 | 2    | 2    | 1    | 1      | 1.25     | FALSE | 0   | 1    | 2         | 2           | 2021/2022 | 1      | 42         | 20   | 2          | 2–2          | 1.3 | 1.3 | 1.95   | 1.375      |
+| Arsenal        | Arsenal v Man City        | 2022-01-01 | 1    | 2    | 2.25 | 2      | 0.5      | TRUE  | 0   | 0    | 0.25      | 2.5         | 2021/2022 | 0      | 35         | 20   | 3          | 1–2          | 1   | 1.8 | 1.8    | 0.725      |
+| Crystal Palace | Crystal Palace v West Ham | 2022-01-01 | 2    | 3    | 1.75 | 2.5    | 1.5      | TRUE  | 0   | 0    | 1.75      | 1.75        | 2021/2022 | 0      | 23         | 20   | 5          | 2–3          | 2.2 | 2   | 1.725  | 1.3        |
+| Man City       | Arsenal v Man City        | 2022-01-01 | 1    | 2    | 0.25 | 1      | 3.25     | FALSE | 1   | 0    | 3.25      | 3.25        | 2021/2022 | 3      | 53         | 21   | 1          | 1–2          | 1   | 1.8 | 2.325  | 0.6        |
