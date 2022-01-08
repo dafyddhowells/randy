@@ -13,8 +13,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' df <- join_form_and_fixture_history()
-#' form_fixture_history_league_position <- form_fixture_history_league_position(df)
+#' model_data <- get_model_data()
 #' }
 #' @return This function returns a \code{data.frame} with the following columns:
 #' \itemize{

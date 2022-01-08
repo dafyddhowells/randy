@@ -1,12 +1,49 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # randy
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of randy is to …
+The purpose of this package is primarily to generate historical data
+from Premier League football matches suitable for fitting goal
+prediction models. It is my first package and the name ‘randy’ was the
+working title of the project that this originated from.
+
+I was inspired to build this to help with a long running game I have
+played with friends.
+
+## Prediccos: Predicting the Scores in Premier League football matches
+
+-   1 point is assigned to that person for predicting the correct result
+-   3 points are assigned to that person for predicting the correct
+    score
+-   Points accumulated each week and the person with the most points at
+    the end of the season wins
+-   The BBC Football pundit Mark Lawrenson plays the same game each
+    season challenging a different set of celebrities each week
+-   We include him in our league and his predictions for ths 2021/22
+    season can be found here:
+    [here](https://www.myfootballfacts.com/stats/premier-league-by-season/premier-league-2021-22/lawros-predictions-premier-league-2021-22/)
+
+## Using Poisson models to do my own Predicco predictions
+
+Previously I predicted scores using largely gut instinct which had
+returned modest results over the years. I would typically get 45-50% of
+results correct with about 40 / 380 correct per season. Thinking that I
+may do better with a more methodical approach I started researching
+methods developed by countless others to achieve the same aim. I will
+not document all of that here but see below a couple of excellent
+packages that really helped my learning in this area:
+
+<https://github.com/Torvaney/regista>
+<https://github.com/opisthokonta/goalmodel>
+
+Whether I used the approaches documented above or worked on building my
+own Poisson models, the first step was to pull together the historical
+premier league data sets to fit models to.
 
 ## Installation
 
@@ -16,70 +53,134 @@ You can install the development version of randy from
 ``` r
 # install.packages("devtools")
 devtools::install_github("dafyddhowells/randy")
+
+library(randy)
 ```
 
-## Example
+## Pulling in historical Premier League results
 
-This is a basic example which shows you how to solve a common problem:
+This function pulls in the results from all fixtures in the entire
+history of the Premier League including the current season:
 
 ``` r
 library(randy)
-#> Warning: replacing previous import 'data.table::last' by 'dplyr::last' when
-#> loading 'randy'
-#> Warning: replacing previous import 'data.table::first' by 'dplyr::first' when
-#> loading 'randy'
-#> Warning: replacing previous import 'data.table::between' by 'dplyr::between'
-#> when loading 'randy'
-#> Warning: replacing previous import 'data.table::month' by 'lubridate::month'
-#> when loading 'randy'
-#> Warning: replacing previous import 'data.table::hour' by 'lubridate::hour' when
-#> loading 'randy'
-#> Warning: replacing previous import 'data.table::quarter' by 'lubridate::quarter'
-#> when loading 'randy'
-#> Warning: replacing previous import 'data.table::week' by 'lubridate::week' when
-#> loading 'randy'
-#> Warning: replacing previous import 'data.table::year' by 'lubridate::year' when
-#> loading 'randy'
-#> Warning: replacing previous import 'data.table::wday' by 'lubridate::wday' when
-#> loading 'randy'
-#> Warning: replacing previous import 'data.table::second' by 'lubridate::second'
-#> when loading 'randy'
-#> Warning: replacing previous import 'data.table::minute' by 'lubridate::minute'
-#> when loading 'randy'
-#> Warning: replacing previous import 'data.table::mday' by 'lubridate::mday' when
-#> loading 'randy'
-#> Warning: replacing previous import 'data.table::yday' by 'lubridate::yday' when
-#> loading 'randy'
-#> Warning: replacing previous import 'data.table::isoweek' by 'lubridate::isoweek'
-#> when loading 'randy'
-#> Warning: replacing previous import 'magrittr::extract' by 'tidyr::extract' when
-#> loading 'randy'
-## basic example code
+
+head(get_prem_history())
+
+| date       | home_team   | away_team      | fthg | ftag | fixture                    |
+|------------|-------------|----------------|------|------|----------------------------|
+| 1993-08-14 | Arsenal     | Coventry       | 0    | 3    | Arsenal v Coventry         |
+| 1993-08-14 | Aston Villa | QPR            | 4    | 1    | Aston Villa v QPR          |
+| 1993-08-14 | Chelsea     | Blackburn      | 1    | 2    | Chelsea v Blackburn        |
+| 1993-08-14 | Liverpool   | Sheffield Weds | 2    | 0    | Liverpool v Sheffield Weds |
+| 1993-08-14 | Man City    | Leeds          | 1    | 1    | Man City v Leeds           |
+| 1993-08-14 | Newcastle   | Spurs          | 0    | 1    | Newcastle v Spurs          |
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+## Create form data:
+
+To create a data set for fitting models to, each team in a fixture needs
+to appear as it’s own observation whether it is home or away to allow us
+to predict the goal outcome for that team in a fixture. We also need to
+calculate the following variables to show a team’s attacking and
+defending strength either home or away:
+
+-   Running averages for goals scored at home
+-   Running averages for goals conceded at home
+-   Running averages for goals scored away
+-   Running averages for goals conceded away
+-   Form: Running average of points accumulated over past n games (home
+    and away combined)
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+prem_history <- get_prem_history()
+prem_form_df <- get_prem_form(prem_history)
+
+head(prem_form_df)
+
+| team    | fixture               | date       | fthg | ftag | form | scored | conceded | home | win | draw |
+|---------|-----------------------|------------|------|------|------|--------|----------|------|-----|------|
+| Arsenal | Arsenal v Coventry    | 1993-08-14 | 0    | 3    | 0    | 0      | 0        | TRUE | 0   | 0    |
+| Arsenal | Arsenal v Leeds       | 1993-08-24 | 2    | 1    | 0    | 0      | 0        | TRUE | 1   | 0    |
+| Arsenal | Arsenal v Everton     | 1993-08-28 | 2    | 0    | 0    | 0      | 0        | TRUE | 1   | 0    |
+| Arsenal | Arsenal v Ipswich     | 1993-09-11 | 4    | 0    | 2.25 | 2      | 1        | TRUE | 1   | 0    |
+| Arsenal | Arsenal v Southampton | 1993-09-25 | 1    | 0    | 3    | 2.25   | 0.25     | TRUE | 1   | 0    |
+| Arsenal | Arsenal v Man City    | 1993-10-16 | 0    | 0    | 2.5  | 1.75   | 0        | TRUE | 0   | 1    |
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
+## Create view of the history of a team in the same fixture over time
 
-You can also embed plots, for example:
+We may also want to consider the average goals scored and conceded, home
+and away in the same instance of a fixture over a number of years. For
+e.g. how many goals on average do Everton score at home vs Arsenal, how
+many goals on average do West Ham concede away vs Man Utd.
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+``` r
+prem_history <- get_prem_history()
+prem_fixture_history_df <- get_prem_fixture_history(prem_history)
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+head(prem_fixture_history_df)
+
+| team    | fixture               | date       | fthg | ftag | sf_scored | sf_conceded | home |
+|---------|-----------------------|------------|------|------|-----------|-------------|------|
+| Arsenal | Arsenal v Aston Villa | 1993-11-06 | 1    | 2    | 0         | 0           | TRUE |
+| Arsenal | Arsenal v Aston Villa | 1994-12-26 | 0    | 0    | 0         | 0           | TRUE |
+| Arsenal | Arsenal v Aston Villa | 1995-10-21 | 2    | 0    | 0         | 0           | TRUE |
+| Arsenal | Arsenal v Aston Villa | 1996-12-28 | 2    | 2    | 1.25      | 1           | TRUE |
+| Arsenal | Arsenal v Aston Villa | 1997-10-26 | 0    | 0    | 1         | 0.5         | TRUE |
+| Arsenal | Arsenal v Aston Villa | 1999-05-16 | 1    | 0    | 1.25      | 0.5         | TRUE |
+```
+
+## Running averages for xG for and against in recent games
+
+Sourced from <https://fbref.com>, similar to calculating running average
+goal form provided by `r get_prem_form()`, we can calculate the same for
+a team, either home or away for their expected goals (xG) to provide
+additional variables for a team’s attacking and defending strength.
+
+``` r
+xg_fixture_history_df <- get_xg_fixture_history()
+
+head(xg_fixture_history_df)
+
+| date       | team    | fixture               | actual_score | xg1 | xg2 | home | xg_for | xg_against |
+|------------|---------|-----------------------|--------------|-----|-----|------|--------|------------|
+| 2017-08-11 | Arsenal | Arsenal v Leicester   | 4–3          | 2.3 | 1.3 | TRUE | 0      | 0          |
+| 2017-09-09 | Arsenal | Arsenal v Bournemouth | 3–0          | 2   | 0.9 | TRUE | 0      | 0          |
+| 2017-09-25 | Arsenal | Arsenal v West Brom   | 2–0          | 2.4 | 0.7 | TRUE | 0      | 0          |
+| 2017-10-01 | Arsenal | Arsenal v Brighton    | 2–0          | 3   | 0.4 | TRUE | 2.425  | 0.825      |
+| 2017-10-28 | Arsenal | Arsenal v Swansea     | 2–1          | 1.6 | 0.6 | TRUE | 2.25   | 0.65       |
+| 2017-11-18 | Arsenal | Arsenal v Spurs       | 2–0          | 1.4 | 1.4 | TRUE | 2.1    | 0.775      |
+```
+
+## Combining form, xG history and past fixture history
+
+We can combine all 3 of these sets of variables into 1 data frame with
+some additional variables including:
+
+-   The season the fixture was played in
+-   The position of the team in the league when the fixture was played
+-   The cumulative number of points accumulated by the team at that
+    point in the season
+
+``` r
+model_data <- get_model_data()
+
+head(model_data)
+
+| team             | fixture                           | date       | fthg | ftag | form | scored | conceded | home  | win | draw | sf_scored | sf_conceded | season    | points | cum_points | game | league_pos | actual_score | xg1 | xg2 | xg_for | xg_against |
+|------------------|-----------------------------------|------------|------|------|------|--------|----------|-------|-----|------|-----------|-------------|-----------|--------|------------|------|------------|--------------|-----|-----|--------|------------|
+| Man Utd          | Man Utd v Wolves                  | 2022-01-03 | 0    | 1    | 2.25 | 1.75   | 1        | TRUE  | 0   | 0    | 1.25      | 0.75        | 2021/2022 | 0      | 31         | 19   | 4          | 0–1          | 0.8 | 0.7 | 1.45   | 0.975      |
+| Wolves           | Man Utd v Wolves                  | 2022-01-03 | 0    | 1    | 1.25 | 0.25   | 0.25     | FALSE | 1   | 0    | 0.75      | 0.75        | 2021/2022 | 3      | 28         | 19   | 5          | 0–1          | 0.8 | 0.7 | 0.625  | 1.725      |
+| Aston Villa      | Brentford v Aston Villa           | 2022-01-02 | 2    | 1    | 2.25 | 2      | 1.25     | FALSE | 0   | 0    | 1.5       | 1.5         | 2021/2022 | 0      | 22         | 19   | 8          | 2–1          | 0.6 | 1.2 | 0.925  | 1.125      |
+| Brentford        | Brentford v Aston Villa           | 2022-01-02 | 2    | 1    | 2.25 | 1.25   | 0.75     | TRUE  | 1   | 0    | 2         | 0.75        | 2021/2022 | 3      | 23         | 19   | 7          | 2–1          | 0.6 | 1.2 | 1      | 0.875      |
+| Brighton         | Everton v Brighton                | 2022-01-02 | 2    | 3    | 1    | 0.25   | 0.75     | FALSE | 1   | 0    | 1         | 1           | 2021/2022 | 3      | 27         | 19   | 6          | 2–3          | 1.7 | 1.5 | 1.225  | 1.45       |
+| Burnley          | Leeds v Burnley                   | 2022-01-02 | 3    | 1    | 1.75 | 1.25   | 1        | FALSE | 0   | 0    | 1         | 1           | 2021/2022 | 0      | 11         | 17   | 15         | 3–1          | 1.6 | 1   | 0.675  | 1.4        |
+| Chelsea          | Chelsea v Liverpool               | 2022-01-02 | 2    | 2    | 1.5  | 1.75   | 1.5      | TRUE  | 0   | 1    | 1.25      | 1.25        | 2021/2022 | 1      | 43         | 21   | 2          | 2–2          | 1.3 | 1.3 | 1.975  | 1          |
+| Everton          | Everton v Brighton                | 2022-01-02 | 2    | 3    | 1    | 1.25   | 2        | TRUE  | 0   | 0    | 2         | 1           | 2021/2022 | 0      | 19         | 18   | 12         | 2–3          | 1.7 | 1.5 | 0.95   | 1.4        |
+| Leeds            | Leeds v Burnley                   | 2022-01-02 | 3    | 1    | 1.75 | 1.75   | 1.75     | TRUE  | 1   | 0    | 3.25      | 1.25        | 2021/2022 | 3      | 19         | 19   | 10         | 3–1          | 1.6 | 1   | 1.525  | 1.55       |
+| Liverpool        | Chelsea v Liverpool               | 2022-01-02 | 2    | 2    | 1    | 1      | 1.25     | FALSE | 0   | 1    | 2         | 2           | 2021/2022 | 1      | 42         | 20   | 2          | 2–2          | 1.3 | 1.3 | 1.95   | 1.375      |
+| Arsenal          | Arsenal v Man City                | 2022-01-01 | 1    | 2    | 2.25 | 2      | 0.5      | TRUE  | 0   | 0    | 0.25      | 2.5         | 2021/2022 | 0      | 35         | 20   | 3          | 1–2          | 1   | 1.8 | 1.8    | 0.725      |
+| Crystal Palace   | Crystal Palace v West Ham         | 2022-01-01 | 2    | 3    | 1.75 | 2.5    | 1.5      | TRUE  | 0   | 0    | 1.75      | 1.75        | 2021/2022 | 0      | 23         | 20   | 5          | 2–3          | 2.2 | 2   | 1.725  | 1.3        |
+| Man City         | Arsenal v Man City                | 2022-01-01 | 1    | 2    | 0.25 | 1      | 3.25     | FALSE | 1   | 0    | 3.25      | 3.25        | 2021/2022 | 3      | 53         | 21   | 1          | 1–2          | 1   | 1.8 | 2.325  | 0.6        |
+```
