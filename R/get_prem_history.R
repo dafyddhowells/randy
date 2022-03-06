@@ -27,11 +27,10 @@
 
 get_prem_history <- function(){
 
-
-  load("~/Documents/randy/data/prem_2018.rda")
-  load("~/Documents/randy/data/prem_2019.rda")
-  load("~/Documents/randy/data/prem_2020.rda")
-  load("~/Documents/randy/data/prem_pre_2018.rda")
+#load("~/Documents/randy/data/prem_2018.rda")
+#load("~/Documents/randy/data/prem_2019.rda")
+#load("~/Documents/randy/data/prem_2020.rda")
+#load("~/Documents/randy/data/prem_pre_2018.rda")
 
   # Pull in fixtures and teams from FPL API
   ff_bootstrap <- fromJSON("https://fantasy.premierleague.com/api/bootstrap-static/")
