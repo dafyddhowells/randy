@@ -44,6 +44,11 @@ get_prem_history <- function(){
 
   # Get fixtures and tidy up team names home and away
   ff_fixtures <- tibble(fromJSON("https://fantasy.premierleague.com/api/fixtures/")) %>%
+    mutate(team_h = as.character(.data$team_h),
+           team_a = as.character(.data$team_a)) %>%
+    left_join(ff_teams, by = c("team_h" = "id"), keep = TRUE) %>% rename(home = .data$name) %>%
+    left_join(ff_teams, by = c("team_a" = "id"), keep = TRUE) %>% rename(away = .data$name) %>%
+
     select(game_week = .data$event,
            fixture_no = .data$id,
            .data$finished,

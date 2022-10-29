@@ -76,6 +76,7 @@ get_xg_fixture_history <- function(home_scored_games_lag = 4,
       home_team == "Newcastle Utd" ~ "Newcastle",
       home_team == "Sheffield Utd" ~ "Sheffield United",
       home_team == "Stoke City" ~ "Stoke",
+      home_team ==  "Nott'ham Forest" ~ "Nott'm Forest",
       home_team == "Tottenham" ~ "Spurs")) %>%
     mutate(home_team = ifelse(is.na(.data$home_team1), .data$home_team, .data$home_team1)) %>%
     mutate(away_team1 = case_when(
@@ -89,6 +90,7 @@ get_xg_fixture_history <- function(home_scored_games_lag = 4,
       away_team == "Newcastle Utd" ~ "Newcastle",
       away_team == "Sheffield Utd" ~ "Sheffield United",
       away_team == "Stoke City" ~ "Stoke",
+      away_team == "Nott'ham Forest" ~ "Nott'm Forest",
       away_team == "Tottenham" ~ "Spurs")) %>%
     mutate(away_team = ifelse(is.na(.data$away_team1), .data$away_team, .data$away_team1)) %>%
     mutate(fixture = paste0(.data$home_team,
