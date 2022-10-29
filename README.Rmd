@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/dafyddhowells/randy/workflows/R-CMD-check/badge.svg)](https://github.com/dafyddhowells/randy/actions)
 <!-- badges: end -->
 
 The purpose of this package is primarily to generate historical data from Premier League football matches suitable for fitting goal prediction models. It is my first package and the name 'randy' was the working title of the project that this originated from. 

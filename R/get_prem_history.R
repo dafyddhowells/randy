@@ -30,6 +30,7 @@ get_prem_history <- function(){
 #load("~/Documents/randy/data/prem_2018.rda")
 #load("~/Documents/randy/data/prem_2019.rda")
 #load("~/Documents/randy/data/prem_2020.rda")
+#load("~/Documents/randy/data/prem_2021.rda")
 #load("~/Documents/randy/data/prem_pre_2018.rda")
 
   # Pull in fixtures and teams from FPL API
@@ -55,42 +56,42 @@ get_prem_history <- function(){
            away = as.character(.data$away)) %>%
     mutate(home = case_when(home == "1" ~ "Arsenal",
                             home == "2" ~ "Aston Villa",
-                            home == "3" ~ "Brentford",
-                            home == "4" ~ "Brighton",
-                            home == "5" ~ "Burnley",
+                            home == "3" ~ "Bournemouth",
+                            home == "4" ~ "Brentford",
+                            home == "5" ~ "Brighton",
                             home == "6" ~ "Chelsea",
                             home == "7" ~ "Crystal Palace",
                             home == "8" ~ "Everton",
-                            home == "9" ~ "Leicester",
-                            home == "10" ~ "Leeds",
-                            home == "11" ~ "Liverpool",
-                            home == "12" ~ "Man City",
-                            home == "13" ~ "Man Utd",
-                            home == "14" ~ "Newcastle",
-                            home == "15" ~ "Norwich",
-                            home == "16" ~ "Southampton",
-                            home == "17" ~ "Spurs",
-                            home == "18" ~ "Watford",
+                            home == "9" ~ "Fulham",
+                            home == "10" ~ "Leicester",
+                            home == "11" ~ "Leeds",
+                            home == "12" ~ "Liverpool",
+                            home == "13" ~ "Man City",
+                            home == "14" ~ "Man Utd",
+                            home == "15" ~ "Newcastle",
+                            home == "16" ~ "Nott'm Forest",
+                            home == "17" ~ "Southampton",
+                            home == "18" ~ "Spurs",
                             home == "19" ~ "West Ham",
                             home == "20" ~ "Wolves")) %>%
     mutate(away = case_when(away == "1" ~ "Arsenal",
                             away == "2" ~ "Aston Villa",
-                            away == "3" ~ "Brentford",
-                            away == "4" ~ "Brighton",
-                            away == "5" ~ "Burnley",
+                            away == "3" ~ "Bournemouth",
+                            away == "4" ~ "Brentford",
+                            away == "5" ~ "Brighton",
                             away == "6" ~ "Chelsea",
                             away == "7" ~ "Crystal Palace",
                             away == "8" ~ "Everton",
-                            away == "9" ~ "Leicester",
-                            away == "10" ~ "Leeds",
-                            away == "11" ~ "Liverpool",
-                            away == "12" ~ "Man City",
-                            away == "13" ~ "Man Utd",
-                            away == "14" ~ "Newcastle",
-                            away == "15" ~ "Norwich",
-                            away == "16" ~ "Southampton",
-                            away == "17" ~ "Spurs",
-                            away == "18" ~ "Watford",
+                            away == "9" ~ "Fulham",
+                            away == "10" ~ "Leicester",
+                            away == "11" ~ "Leeds",
+                            away == "12" ~ "Liverpool",
+                            away == "13" ~ "Man City",
+                            away == "14" ~ "Man Utd",
+                            away == "15" ~ "Newcastle",
+                            away == "16" ~ "Nott'm Forest",
+                            away == "17" ~ "Southampton",
+                            away == "18" ~ "Spurs",
                             away == "19" ~ "West Ham",
                             away == "20" ~ "Wolves")) %>%
     mutate(result = case_when(.data$home_score == .data$away_score ~ "Draw",
@@ -108,7 +109,7 @@ get_prem_history <- function(){
            actual_score = .data$score)
 
   # Prem results from this season
-  prem_2021 <- ff_results %>%
+  prem_2022 <- ff_results %>%
     select(.data$fixture_no,
            .data$fixture,
            .data$actual_score) %>%
@@ -129,7 +130,7 @@ get_prem_history <- function(){
     select(.data$div, .data$date, .data$home_team, .data$away_team, .data$fthg, .data$ftag)
 
   # Bind all previous history tables with current season
-  prem_history <- rbind(prem_pre_2018, prem_2020, prem_2019, prem_2018, prem_2021) %>%
+  prem_history <- rbind(prem_pre_2018, prem_2020, prem_2019, prem_2018, prem_2021, prem_2022) %>%
     drop_na() %>%
     filter(!fthg == "NA") %>%
     mutate(fthg = as.numeric(fthg),

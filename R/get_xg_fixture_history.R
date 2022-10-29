@@ -45,6 +45,7 @@ get_xg_fixture_history <- function(home_scored_games_lag = 4,
                      "https://fbref.com/en/comps/9/1889/schedule/2018-2019-Premier-League-Scores-and-Fixtures",
                      "https://fbref.com/en/comps/9/3232/schedule/2019-2020-Premier-League-Scores-and-Fixtures",
                      "https://fbref.com/en/comps/9/10728/schedule/2020-2021-Premier-League-Scores-and-Fixtures",
+                     "https://fbref.com/en/comps/9/2020-2021/schedule/2020-2021-Premier-League-Scores-and-Fixtures",
                      "https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures")
 
   for(i in 1:length(xg_season_url)){
